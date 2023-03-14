@@ -1,4 +1,5 @@
 using EventsProject.Commons.AutoMapping;
+using EventsProject.MiddleWare;
 using EventsProject.Models;
 using FluentValidation;
 
@@ -21,7 +22,7 @@ if (app.Environment.IsDevelopment())
 }
 var db = app.Services.GetService<IDataBase>();
 DBInitialization.Init(db!);
-
+app.UseMiddleware<ValidationExceptionHandlerMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

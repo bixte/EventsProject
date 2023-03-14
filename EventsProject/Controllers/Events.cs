@@ -6,7 +6,6 @@ using EventsProject.Features.Events.Queries.GetEvent;
 using EventsProject.Features.Events.Queries.GetEvents;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 
 namespace EventsProject.Controllers
 {
