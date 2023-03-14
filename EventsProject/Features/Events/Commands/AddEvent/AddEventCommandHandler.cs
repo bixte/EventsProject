@@ -17,9 +17,16 @@ namespace EventsProject.Features.Events.Commands.AddEvent
             this.dataBase = dataBase;
             this.validator = validator;
         }
-        public Task Handle(AddEventCommand request, CancellationToken cancellationToken)
+        public async Task Handle(AddEventCommand request, CancellationToken cancellationToken)
         {
-            validator.ValidateAndThrow(request);
+            try
+            {
+                validator.ValidateAndThrow(request);
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
             dataBase.EventRepository.Add(new Event()
             {
                 Id = Guid.NewGuid(),
@@ -30,7 +37,6 @@ namespace EventsProject.Features.Events.Commands.AddEvent
                 PictureId = request.PictureId,
                 PlaceId = request.PlaceId,
             });
-            return Task.CompletedTask;
         }
     }
 }

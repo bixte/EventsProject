@@ -15,15 +15,21 @@ namespace EventsProject.Features.Events.Commands.DeleteEvent
             this.dataBase = dataBase;
             this.validator = validator;
         }
-        public Task Handle(DeleteEventCommand request, CancellationToken cancellationToken)
+        public async Task Handle(DeleteEventCommand request, CancellationToken cancellationToken)
         {
-            validator.ValidateAndThrow(request);
+            try
+            {
+                validator.ValidateAndThrow(request);
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
             var @event = dataBase.EventRepository.Find(request.Id);
             if (@event == null)
                 throw new NotFoundException();
 
             dataBase.EventRepository.Remove(@event);
-            return Task.CompletedTask;
         }
     }
 }

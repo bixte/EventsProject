@@ -21,7 +21,14 @@ namespace EventsProject.Features.Events.Commands.UpdateEvent
             if (@event == null)
                 throw new NotFoundException();
 
-            validator.ValidateAndThrow(request);
+            try
+            {
+                validator.ValidateAndThrow(request);
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
             @event.Name = request.Name;
             @event.Description = request.Description;
             @event.DateStart = request.DateStart;
